@@ -1,4 +1,5 @@
-# aarhusinvwrapper
+aarhusinvwrapper
+================
 
 This package is a wrapper for the `AarhusInv <http://hgg.au.dk/download/inversionkernel/>`__ modelling software, to somewhat automate the process of creating models and inverting data, and so on.
 

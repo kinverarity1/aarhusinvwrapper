@@ -1,0 +1,101 @@
+/*Configuration file for em1dinv.
+16          !em1dinv.con file version
+/*Output to screen settings
+0           !OutputGen - output general information to screen (->0) or to log file (->1)
+0           !OutputLog - overwrite (->0) or append (->1) em1dinv.log between each run
+/*Inversion settings
+1e60        !MinApriori - minimum apriori STD on any parameter
+1.5         !MaxStep   - the initial maximum allowed par. change factor
+1.1         !MinStep   - minimum allowed par.  change factor
+1.5         !StepUp    - factor to increase MaxStep -1.5
+2.0         !StepDown  - factor to decrease MaxStep -1.5
+2           !NStepUp   - n iterations before increasing the MaxStep step size 1
+50          !NReCalcGIte - n normal iterations before not calculate G in each iteration
+4           !NReCalcG  - n iterations between each calculation of G when n.gt.NReCalcGIte
+1           !ReUseG: 1->Use G from last iteration in analysis, 0->Recalcualte highaccu. G before analysis
+1           !CalcAnalysis: 0-> Not Calculate; 1-> Calculate coupled analysis; 2-> Calculate coupled and uncoupled analysis;  
+1           !CoupledAnalysisType:  0-> parallel sparse analysis for the full problem; 1-> coupled to nearest neighbors; 2-> further coupled to tier 2 neighbors; -1-> full analysis for NModels<1000, coupled to nearest neighbors otherwise
+1	    !NCPUs     - Default number of parallel threads in forward response and inversion 
+/*Regularization settings
+5.e3        !DampInit  - part of the max diag. to use as initial damp size
+1.e6        !MaxDampInit - Maximum damp init factor
+3.          !DampInitUp - factor to increase DampInit (default 3.)
+3.          !DampFactor - factor to increase the damping in the diag. between each try (default 3.)
+20          !NMaxDamp  - max number of damp. tries
+/*Forward accuracy settings
+7.e-3       !RelNormChange- the relative change in norm to stop the iterations - single sided derivatives
+7.e-3       !RelNormChangeD-the relative change in norm to stop the iterations - double sided derivatives
+10 14       !FDenseCSLow,FDenseCSHigh - Filter density for the cos-sine filter (low and high setting)
+10 14       !FDenseJLow,FDenseJHigh - Filter density for the J_1-J1 filter (low and high setting)
+/*Model Log-Lin settings
+0           !0->inversion in log model space, 1->linear model space
+0           !0->inversion in log data space, 1->linear data space
+0           !LogNeg: 0->warn for negative data, but continue the inversion; 1-> stop with negative data; 2-> change to lin space when negative data found (used only when working in log data space) 
+0           !0->inversion on log depths, 1->lin depths
+0           !0->depth referenced constraints, 1->elevation referenced depth constraints
+0           !0->height referenced altitude constraints, 1->elevation referenced altitude constraints
+/*emo file settings
+0           !OutputCov   - 1->write normalized cov. and model res. matrix on emm file, 0->don't
+0           !EmoWriteIte - 1->write emo-type file after each iteration (.ems), 0->don't 
+/*Parameter limits settings
+.1          !MinRes    - min res. allowed,      (ohm.m)
+20000.      !MaxRes    - max res. allowed,      (ohm.m)
+0.1         !MinThick  - min thicknes  allowed, (m)
+500 .       !MaxThick  - max thicknes  allowed, (m)
+.1          !MinM0     - min M0   (IP) allowed, (mV/V)
+ 500        !MaxM0     - max M0   (IP) allowed, (mV/V)
+.01         !MinTau    - min Tau  (IP) allowed, (sec)
+100         !MaxTau    - max Tau  (IP) allowed, (sec)
+.01         !MinC      - min C    (IP) allowed, (dim-less)
+1.0         !MaxC      - max C    (IP) allowed, (dim-less)
+.01         !MinW      - min W   (MRS) allowed, (m3/m3)
+1.0         !MaxW      - max W   (MRS) allowed, (m3/m3)
+.01         !MinT2star - min T2* (MRS) allowed, (sec)
+100         !MaxT2star - max T2* (MRS) allowed, (sec)
+.3          !MinCmrs   - min C   (MRS) allowed, (dim-less)
+1.0         !MaxCmrs   - max C   (MRS) allowed, (dim-less)
+0.000000001 !MinShift  - min C   (MRS) allowed, (radiants)
+6.28        !MaxShift  - max C   (MRS) allowed, (radiants)
+10.0        !MinVel    - min Vel (SWD) allowed, (m/sec)
+7500        !MaxVel    - max Vel (SWD) allowed, (m/sec)
+500         !MinDen    - min Den (SWD) allowed, (kg/m3)
+4000        !MaxDen    - max Den (SWD) allowed, (kg/m3)
+0.0         !MinPoi    - min Poi (SWD) allowed, (dim-less)
+0.49        !MaxPoi    - max Poi (SWD) allowed, (dim-less)
+/*Misc. settings
+0           !AddNoise2Scr - add white noise to scratch file, ->0 no noise, 1->add noise
+5           !IteNAlt - Number of iterations before setting altitude free in inversion (only model types 5 and 6)
+7           !IteNAng - Number of iterations before setting angle free in inversion (only model type 6)
+/*2D DCIP Settings
+-13 5       !LowerDecade,UpperDecade - Lowest and uppermost decade (in frequency) for time transform (min and max values)
+  5 5       !LowResPPD,HighResPPD - Number of points per decade at which to calculate the time transform (low and high setting, depending on NOneD)
+  5 5       !LowResNCM,HighResNCM - Number of close models for Jacobian computation   (low and high setting, depending on NOneD)
+/*SWD settings
+0           !SWDMethod: 0->All layers solid, 0->with liquid top layer
+2.e-5       !SWDSearchStep - max step in wavenumber search (default 2e-5)
+/*MRS settings
+0.01  5.0   !MinDepth, MaxRelDepth - Z discretization limits, expressed as real depth (MinDepth) and fraction of loop side length (MaxRelDepth)
+0.025 100.0 !MinXDisc, MaxXDisc - horizontal discretization limits, expressed as # of loop side length
+0.2 0.2     !XDiscSwitch,ZDiscSwitch - depth at which x- and z- discretization (# of samples) is changed. expressed as # of loop side length
+5 20        !NDecShallow, NDecDeep - Number of points per decade for the Z discretization (Shallow and Deep setting)
+30 20       !NSampInShallow,NSampInDeep - horizontal discretization, number of discritization points between wire and the center (to the next wire) at shallow and deep parts
+0           !Minimum number of disc. points in each layer
+/*Broyden settings
+0           !Broyden, 1-> Use Broyden update, 0-> Don't use broyden update
+4           !NTwoD - Number of full iterations before switching to Broyden
+5.0e-2      !RelNormChangeB - the relative change in norm to change from broyden to full Jacobian
+0           !NOneDDeriv - Number of iterations to use approximate derivatives (1D for 2D-DC and FA for TEM)
+0           !NOneD - Number of iterations to approximate forward solution (1D for 2D-DC and FA for TEM)
+0           !EndFull - 1-> Always end with full, non-approximate, iterations, 0-> don't
+/*FAI settings
+0.75, 0.45  !cFAI,alphaFAI. alphaFAI is actually not used anymore in the FAI scheme, but is kept with the old subroutine to remember and/or to make further changes	  
+100         !nbTxZFAIcon, number of different transmitter altitudes
+8           !nbSigRefFAI, number of reference conductivities
+0.1,1.,10.,100.,1000.,2000.,5000.,10000 !reference conductivities
+/*Depth Of Investigation (DOI) settings
+1           !DOI, 1-> Calculate DOI, 0-> Don't (for Nite=0 in mod-file the calculations are done for the input model)
+19          !DOINLayers - Number of points for the DOI calculations
+2.5         !DOIDepth1 - Depth to first point used in the DOI calculations
+220         !DOIDepthN - Depth to last point used in the DOI calculations
+1.5 0.75    !DOIAbsHigh,DOIAbsLow - high and low absolute values for DOI calculations
+0.05 0.02   !DOIRelHigh,DOIRelLow - high and low relative values for DOI calculations

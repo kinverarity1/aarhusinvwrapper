@@ -7,6 +7,8 @@ import shutil
 import subprocess
 import sys
 
+import utils
+
 
 logger = logging.getLogger(__name__)
 
@@ -79,8 +81,8 @@ def run(modfn):
         assert os.path.isfile(modfn_basefn)
         result = subprocess.check_output(["AarhusInv64.exe", modfn_basefn])
     except subprocess.CalledProcessError as e:
-        print e.output
-        raise
+        d = '------------------------------------------------------------'
+        utils.skip_exception("ERROR\n%s\n%s\n%s\n" % (d, e.output, d))
     finally:
         os.remove("AarhusInv64.exe")
         os.remove("AarhusInvLic.exe")

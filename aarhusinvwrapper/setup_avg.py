@@ -84,7 +84,7 @@ def mainfunc(avgfile, invpath, stnfn):
             temfnpath = os.path.join(linvpath, temfn)
             
             rtime = (numpy.asarray(data.Time) + ramptime) / 1e3  # Time after Tx turn-off
-            norm_mag = numpy.asarray(data.Magnitude / area_rx * 1e6) # Magnitude in V/A not uV/A
+            norm_mag = numpy.asarray(data.Magnitude) / (area_rx * 1e6) # Magnitude in V/A not uV/A
             norm_pc_mag = numpy.asarray(data["%Mag"] / 100.)  # Zonge errors not relative.
             log_late_res = numpy.asarray(numpy.log10(
                 numpy.power(area_rx * area_tx / data.Magnitude, 2/3.) *

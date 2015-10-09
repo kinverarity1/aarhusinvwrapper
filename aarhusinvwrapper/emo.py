@@ -5,8 +5,8 @@ try:
 except ImportError:
     import StringIO as StringIO
 
-import attrdict
 import numpy
+import pandas
 
 import model1d
 
@@ -109,6 +109,22 @@ def read_emo(emofile):
     d.final_rhos = d.models[-1].rhos
     d.final_thks = d.models[-1].thks
     d.final_tops = d.models[-1].tops
+
+
+    save_fwd_lines = False
+    fwd_lines = []
+    for i, line in enumerate(lines):
+        if line.startswith('Time   Inp_Data'):
+            save_fwd_lines = True
+        if line.startswith('Depth Of Investigation'):
+            save_fwd_lines = False
+            continue
+        if save_fwd_lines:
+            fwd_lines.append(line)
+    fwd_flobj = StringIO.StringIO('\n'.join(fwd_lines))
+    d.fwd_responses = pandas.read_csv(fwd_flobj, delim_whitespace=True)
+    d.fwd_responses['IterFinal'] = d.fwd_responses["Ite#%03d" % d.niterations]
+    # print d.fwd_responses.columns.values
 
     return d
 

@@ -1,2 +1,2 @@
-attrdict
+pandas
 numpy

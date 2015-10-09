@@ -1,8 +1,11 @@
+import argparse
 from ConfigParser import SafeConfigParser
+import glob
 import logging
 import os
 import shutil
 import subprocess
+import sys
 
 
 logger = logging.getLogger(__name__)
@@ -83,3 +86,41 @@ def run(modfn):
         os.remove("AarhusInvLic.exe")
         os.chdir(startpath)
     return result
+
+
+def mainfunc(models, recurse, dry_run):
+    if recurse:
+        for modeldir in models:
+            assert os.path.isdir(modeldir)
+            modfns = []
+            for root, dirs, files in os.walk(modeldir):
+                modfns += [os.path.join(root, f) for f in files if f.endswith('.mod')]
+    else:
+        modfns = [fn for fn in models if os.path.isfile(fn)]
+
+    for modfn in modfns:
+        logger.info("Found .mod file %s" % modfn)
+
+    n = len(modfns)
+    for i, modfn in enumerate(modfns):
+        logger.info("Start inversion (% 5d/% 5d) for %s" % (i + 1, n, modfn))
+        if not dry_run:
+            logger.debug(run(modfn))
+
+
+def main():
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format=("%(asctime)s  %(levelname)s  %(filename)s  "
+                "line %(lineno)d %(funcName)s : %(message)s"))
+    p = argparse.ArgumentParser()
+    p.add_argument('-d', '--dry-run', action='store_true', default=False, help="don't actually make any changes")
+    p.add_argument('-r', '--recurse', action='store_true', default=False, help="look recursively")
+    p.add_argument('models', nargs='*', help="model files to run OR paths to recurse over")
+    args = p.parse_args(sys.argv[1:])
+    return mainfunc(**args.__dict__)
+
+
+if __name__ == "__main__":
+    main()
+

@@ -31,7 +31,7 @@ MOD = """Created by {script_fn} from {input_fn}
 """
 
 
-def mainfunc(avgfile, invpath, stnfn):
+def mainfunc(avgfile, invpath, stnfn, layers):
     # Reference Lines 4-9
     txramp = 0.015          # ms
     rxramp = 0.002          # ms
@@ -67,7 +67,7 @@ def mainfunc(avgfile, invpath, stnfn):
         logger.debug('No station file, using coordinates 0, 0, 0')
 
     # Inversion setup. 1l through 7l, and a 20l
-    for nlayers in (range(1, 8) + [20]):
+    for nlayers in [int(nl) for nl in layers]:
         linvpath = os.path.join(invpath, "%.0fl" % nlayers)
         if not os.path.isdir(linvpath):
             os.makedirs(linvpath)
@@ -186,6 +186,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('-i', '--invpath', default='.', help="Path to conduct inversions in")
     p.add_argument('-s', '--stnfn', default=None, help="Optional .stn file")
+    p.add_argument('-l', '--layers', nargs='*', help='Layers e.g. 1 2 3 4 20', default=[1, 2, 3, 4, 5, 6, 7, 20])
     p.add_argument('avgfile', help="Required data in .avg file")
     args = p.parse_args(sys.argv[1:])
     return mainfunc(**args.__dict__)

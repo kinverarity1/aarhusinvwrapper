@@ -12,16 +12,12 @@ There are several different parts of the package.
 1. It's designed to work flexibly with AarhusInv64.exe and AarhusInvLic.exe no
    matter where those executables are kept on your computer. Say you keep them
    at ``y:\Stuff\other stuff\research\emd1dinv``. All you have to do is install
-   this package like you would any other Python package:
-
-.. code:: powershell
+   this package like you would any other Python package::
 
     PS F:\> pip install aarhusinvwrapper
 
    And then you just need to register the location of AarhusInv64.exe with
-   aarhusinvwrapper, like so:
-
-.. code::
+   aarhusinvwrapper, like so::
 
     PS F:\> aarhusinv_register.exe --help
     usage: aarhusinv_register-script.py [-h] path
@@ -38,9 +34,7 @@ There are several different parts of the package.
    See the `example notebook <https://github.com/kinverarity1/aarhusinvwrapper/blob/master/notebooks/How%20to%20register%20the%20AarhusInv%20software%20location%20with%20aarhusinvwrapper.ipynb>`__.
 
 2. If you setup your inversions by hand or by other means you can use
-   aarhusinvwrapper to run AarhusInv from a controlling Python script, just use:
-
-.. code:: python
+   aarhusinvwrapper to run AarhusInv from a controlling Python script, just use::
 
     >>> import aarhusinvwrapper
     >>> aarhusinvwrapper.run('example.mod')
@@ -59,9 +53,7 @@ There are several different parts of the package.
    the future I will build to accept data from other common sources, or from
    anywhere.
 
-   The only script at the moment is
-
-.. code::
+   The only script at the moment is::
 
     PS F:\> aarhusinv_setup_avg.exe --help
     usage: aarhusinv_setup_avg-script.py [-h] [-i INVPATH] [-s STNFN] avgfile
@@ -77,19 +69,16 @@ There are several different parts of the package.
                             Optional .stn file
     PS F:\>
 
-
    You will need:
 
    - Zonge TEM data in the form of an .avg file
    - (optional) station locations as a .stn file (whitespace-delimited, no header line, with columns from left to right: station number, easting, northing, and elevation).
 
-   First setup the inversions:
+   First setup the inversions::
 
-   TBW
+    TBW
 
-   And then recursively run them all:
-
-.. code::
+   And then recursively run them all::
 
     $ aarhusinv_run.exe --help
     usage: aarhusinv_run-script.py [-h] [-d] [-r] [models [models ...]]

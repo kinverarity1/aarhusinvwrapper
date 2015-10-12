@@ -79,7 +79,16 @@ def run(modfn):
     try:
         os.chdir(modfn_path)
         assert os.path.isfile(modfn_basefn)
-        result = subprocess.check_output(["AarhusInv64.exe", modfn_basefn])
+        process = subprocess.Popen(
+            ["AarhusInv64.exe", modfn_basefn],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+        while process.returncode is None:
+            line = process.stdout.readline().strip('\n')
+            logger.debug(line)
+            if 'Error in CConvJ01. Subroutine SqLoop1' in line:
+                logger.error('Stopping inversion')
+                process.kill()
+            process.poll()
     except subprocess.CalledProcessError as e:
         d = '------------------------------------------------------------'
         utils.skip_exception("ERROR\n%s\n%s\n%s\n" % (d, e.output, d))
@@ -90,7 +99,7 @@ def run(modfn):
     return result
 
 
-def mainfunc(models, recurse, dry_run):
+def mainfunc(models, recurse, dry_run, no_emo):
     if recurse:
         for modeldir in models:
             assert os.path.isdir(modeldir)
@@ -100,6 +109,13 @@ def mainfunc(models, recurse, dry_run):
     else:
         modfns = [fn for fn in models if os.path.isfile(fn)]
 
+    if no_emo:
+        modfns2 = []
+        for modfn in modfns:
+            if not os.path.isfile(modfn.replace('.mod', '.emo')):
+                modfns2.append(modfn)
+        modfns = modfns2
+
     for modfn in modfns:
         logger.info("Found .mod file %s" % modfn)
 
@@ -107,17 +123,18 @@ def mainfunc(models, recurse, dry_run):
     for i, modfn in enumerate(modfns):
         logger.info("Start inversion (% 5d/% 5d) for %s" % (i + 1, n, modfn))
         if not dry_run:
-            logger.debug(run(modfn))
+            run(modfn)
 
 
 def main():
     logging.basicConfig(
         level=logging.DEBUG,
-        format=("%(asctime)s  %(levelname)s  %(filename)s  "
-                "line %(lineno)d %(funcName)s : %(message)s"))
+        format=("%(asctime)s %(levelname)s %(filename)s"
+                "#%(lineno)d.%(funcName)s: %(message)s"))
     p = argparse.ArgumentParser()
     p.add_argument('-d', '--dry-run', action='store_true', default=False, help="don't actually make any changes")
     p.add_argument('-r', '--recurse', action='store_true', default=False, help="look recursively")
+    p.add_argument('--no-emo', action='store_true', default=False)
     p.add_argument('models', nargs='*', help="model files to run OR paths to recurse over")
     args = p.parse_args(sys.argv[1:])
     return mainfunc(**args.__dict__)

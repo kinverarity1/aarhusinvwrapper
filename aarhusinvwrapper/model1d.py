@@ -80,7 +80,7 @@ def tops2thks(tops):
 def res_at_depth(tops, rhos, z):
     """Return model's resistivity at depth z."""
     k = len(tops)
-    assert k == len(rhos)
+    assert k == len(rhos) - 1
     for ki in range(k):
         if z == tops[ki]:
             if ki == 0:

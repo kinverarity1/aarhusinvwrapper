@@ -123,6 +123,15 @@ def main():
     return mainfunc(**args.__dict__)
 
 
+def register_entryfunc():
+    p = argparse.ArgumentParser()
+    p.add_argument('path', help='location of AarhusInv64.exe etc.')
+    args = p.parse_args(sys.argv[1:])
+    register(args.path)
+    if check_path(args.path):
+        print('Successfully registered AarhusInv at %s' % args.path)
+
+
 if __name__ == "__main__":
     main()
 

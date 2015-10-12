@@ -20,8 +20,13 @@ class AttrDict2(dict):
 
 def read_emo(emofile):
     '''
+    Read .emo file (AarhusInv inversion output file)
+
     Arguments:
         file (file-like object or filename): emo file
+
+    Warning: this will not work for .emo files containing more than one 
+    dataset or model.
 
     '''
     fn = None
@@ -124,7 +129,33 @@ def read_emo(emofile):
     fwd_flobj = StringIO.StringIO('\n'.join(fwd_lines))
     d.fwd_responses = pandas.read_csv(fwd_flobj, delim_whitespace=True)
     d.fwd_responses['IterFinal'] = d.fwd_responses["Ite#%03d" % d.niterations]
-    # print d.fwd_responses.columns.values
+    for c in d.fwd_responses.columns:
+        if c.startswith('Ite'):
+            r = d.fwd_responses[c] - d.fwd_responses.Inp_Data
+            rabs = numpy.sqrt(r ** 2)
+            rpc = rabs / d.fwd_responses.Inp_Data
+            d.fwd_responses[c+'Resid'] = r
+            d.fwd_responses[c+'ResidAbs'] = rabs
+            d.fwd_responses[c+'ResidAbsPc'] = rpc
+
+
+    save_norms_lines = False
+    norms_lines = []
+    for i, line in enumerate(lines):
+        if line.startswith('Norm factor'):
+            d.norm_factor = float(lines[i + 1])
+        if line.startswith("Norm's"):
+            save_norms_lines = True
+            continue
+        if line.startswith('Model #'):
+            save_norms_lines = False
+            continue
+        if save_norms_lines:
+            norms_lines.append(line)
+    norms_flobj = StringIO.StringIO('\n'.join(norms_lines))
+    d.norms = pandas.read_csv(norms_flobj, delim_whitespace=True)
+    d.final_norms = d.norms.loc[numpy.max(d.norms['Ite_#'])]
+    # d.norms['IterFinal'] = d.fwd_responses["Ite#%03d" % d.niterations]
 
     return d
 

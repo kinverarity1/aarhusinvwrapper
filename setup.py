@@ -59,6 +59,7 @@ setup(name='aarhusinvwrapper',
 
       entry_points={
           'console_scripts': [
+              'aarhusinv_register = aarhusinvwrapper.runmodule:register_entryfunc',
               'aarhusinv_setup_avg = aarhusinvwrapper.setup_avg:main',
               'aarhusinv_run = aarhusinvwrapper.runmodule:main'
           ],

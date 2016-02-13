@@ -32,7 +32,7 @@ There are several different parts of the package.
         Successfully registered AarhusInv at F:\Surface Geophysics\software\AarhusInv
         PS F:\>
 
-   See the `example notebook <https://github.com/kinverarity1/aarhusinvwrapper/blob/master/notebooks/How%20to%20register%20the%20AarhusInv%20software%20location%20with%20aarhusinvwrapper.ipynb>`__.
+   See the [example notebook](https://github.com/kinverarity1/aarhusinvwrapper/blob/master/notebooks/How%20to%20register%20the%20AarhusInv%20software%20location%20with%20aarhusinvwrapper.ipynb).
 
 2. If you setup your inversions by hand or by other means you can use
    aarhusinvwrapper to run AarhusInv from a controlling Python script, just use:
@@ -40,7 +40,7 @@ There are several different parts of the package.
         >>> import aarhusinvwrapper
         >>> aarhusinvwrapper.run('example.mod')
 
-   See the `example notebook <https://github.com/kinverarity1/aarhusinvwrapper/blob/master/notebooks/Running%20AarhusInv%20via%20aarhusinvwrapper.ipynb>`__.
+   See the [example notebook](https://github.com/kinverarity1/aarhusinvwrapper/blob/master/notebooks/How%20to%20register%20the%20AarhusInv%20software%20location%20with%20aarhusinvwrapper.ipynb)
 
 3. You can read the .emo format files that AarhusInv produces easily with
    aarhusinvwrapper!:
@@ -302,8 +302,7 @@ There are several different parts of the package.
          'thk_min': 0.1,
          'version': '6.10'}
 
-   The `example notebook <https://github.com/kinverarity1/aarhusinvwrapper/blob/master/notebooks/Read%20the%20inversion%20output%20.emo%20file.ipynb>`__ also shows
-   how to generate some basic plots of models and so on.
+   The  [example notebook](https://github.com/kinverarity1/aarhusinvwrapper/blob/master/notebooks/How%20to%20register%20the%20AarhusInv%20software%20location%20with%20aarhusinvwrapper.ipynb) also shows how to generate some basic plots of models and so on.
 
 4. You can also use utility scripts/functions in aarhusinvwrapper to generate
    what I call "inversion sets" where you programatically generate a whole heap

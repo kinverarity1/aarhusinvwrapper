@@ -15,7 +15,7 @@ from aarhusinvwrapper import __version__
 with open(path.join(path.dirname(__file__), "requirements.txt"), "r") as f:
     requirements = f.read().splitlines()
 
-with open(path.join(path.dirname(__file__), "README.rst"), "r") as f:
+with open(path.join(path.dirname(__file__), "README.md"), "r") as f:
     README = f.read()
 
 setup(name='aarhusinvwrapper',

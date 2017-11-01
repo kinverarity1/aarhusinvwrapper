@@ -1,14 +1,17 @@
 import datetime
 import os
 try:
-    import cStringIO as StringIO
+    from cStringIO import StringIO
 except ImportError:
-    import StringIO as StringIO
+    try:
+        from StringIO import StringIO
+    except ImportError:
+        from io import StringIO
 
 import numpy
 import pandas
 
-import model1d
+from . import model1d
 
 
 class AttrDict2(dict):
@@ -99,7 +102,7 @@ def read_emo(emofile):
             continue
         if save_model_lines:
             model_lines.append(line)
-    model_flobj = StringIO.StringIO('\n'.join(model_lines[1:]))
+    model_flobj = StringIO('\n'.join(model_lines[1:]))
     d.model_params = numpy.loadtxt(model_flobj)
     d.models = []
     n = d.nlayers_model[0]
@@ -126,7 +129,7 @@ def read_emo(emofile):
             continue
         if save_fwd_lines:
             fwd_lines.append(line)
-    fwd_flobj = StringIO.StringIO('\n'.join(fwd_lines))
+    fwd_flobj = StringIO('\n'.join(fwd_lines))
     d.fwd_responses = pandas.read_csv(fwd_flobj, delim_whitespace=True)
     d.fwd_responses['IterFinal'] = d.fwd_responses["Ite#%03d" % d.niterations]
     for c in d.fwd_responses.columns:
@@ -152,7 +155,7 @@ def read_emo(emofile):
             continue
         if save_norms_lines:
             norms_lines.append(line)
-    norms_flobj = StringIO.StringIO('\n'.join(norms_lines))
+    norms_flobj = StringIO('\n'.join(norms_lines))
     d.norms = pandas.read_csv(norms_flobj, delim_whitespace=True)
     d.final_norms = d.norms.loc[numpy.max(d.norms['Ite_#'])]
     # d.norms['IterFinal'] = d.fwd_responses["Ite#%03d" % d.niterations]

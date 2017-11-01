@@ -1,5 +1,8 @@
 import argparse
-from ConfigParser import SafeConfigParser
+try:
+    from ConfigParser import SafeConfigParser
+except ImportError:
+    from configparser import SafeConfigParser
 import glob
 import logging
 import os
@@ -7,7 +10,7 @@ import shutil
 import subprocess
 import sys
 
-import utils
+from . import utils
 
 
 logger = logging.getLogger(__name__)
